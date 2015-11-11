@@ -25,6 +25,6 @@
 
 - (id)initWithFrame:(CGRect)frame title:(NSString *)title items:(NSMutableArray *)items;
 
--(void)setItemsList:(NSMutableArray*)items withItemSize:(CGSize)theItemSize withPadding:(float)thePadding withDistanceBetween:(float)theDistanceBetween;
+- (void)setItemsList:(NSMutableArray*)items withItemSize:(CGSize)theItemSize withPadding:(float)thePadding withDistanceBetween:(float)theDistanceBetween;
 
 @end

@@ -16,7 +16,7 @@
     
     if (self) {
         
-        self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, TITLE_HEIGHT, self.frame.size.width, self.frame.size.height)];
+        self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.frame.size.width, self.frame.size.height)];
 
         CGSize pageSize = CGSizeMake(ITEM_WIDTH, self.scrollView.frame.size.height);
         NSUInteger page = 0;
@@ -82,6 +82,11 @@
     
     if (!self.scrollView) {
         self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.frame.size.width, self.frame.size.height)];
+    }
+    else {
+        for (UIView *subview in self.scrollView.subviews) {
+            [subview removeFromSuperview];
+        }
     }
     
     if ([items count] > 1) {
