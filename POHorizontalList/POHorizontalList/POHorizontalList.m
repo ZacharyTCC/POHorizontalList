@@ -69,6 +69,53 @@
     return self;
 }
 
+- (void)setItemsList:(NSMutableArray*)items withItemSize:(CGSize)theItemSize withPadding:(float)thePadding withDistanceBetween:(float)theDistanceBetween {
+    CGSize itemSize;
+    if (!theItemSize.width == 0 && !theItemSize.height == 0) {
+        itemSize = theItemSize;
+    } else {
+        itemSize = CGSizeMake(self.bounds.size.width, self.bounds.size.height);
+    }
+    
+    CGSize pageSize = CGSizeMake(itemSize.width, self.scrollView.frame.size.height);
+    NSUInteger page = 0;
+    
+    if (!self.scrollView) {
+        self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.frame.size.width, self.frame.size.height)];
+    }
+    
+    if ([items count] > 1) {
+        for (ListItem* item in items) {
+            [item setFrame:CGRectMake(thePadding + (pageSize.width + theDistanceBetween) * page++, thePadding, itemSize.width, itemSize.height)];
+            
+            UITapGestureRecognizer* singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                              action:@selector(itemTapped:)];
+            [item addGestureRecognizer:singleFingerTap];
+            
+            self.scrollView.scrollEnabled = YES;
+            [self.scrollView addSubview:item];
+            
+            self.scrollView.contentSize = CGSizeMake(thePadding + (pageSize.width + theDistanceBetween) * [items count], pageSize.height);
+        }
+    } else {
+        
+        [items[0] setFrame:CGRectMake(thePadding, thePadding, itemSize.width, itemSize.height)];
+        
+        UITapGestureRecognizer* singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                          action:@selector(itemTapped:)];
+        [items[0] addGestureRecognizer:singleFingerTap];
+        
+        self.scrollView.scrollEnabled = NO;
+        [self.scrollView addSubview:items[0]];
+    }
+    
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    self.scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
+    
+    [self addSubview:self.scrollView];
+}
+
 - (void)itemTapped:(UITapGestureRecognizer *)recognizer {
     ListItem *item = (ListItem *)recognizer.view;
 
